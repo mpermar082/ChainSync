@@ -3,23 +3,57 @@
  * Core ChainSync implementation
  */
 
+/**
+ * Configuration for ChainSync
+ */
 export interface ChainSyncConfig {
+    /**
+     * Enable verbose logging
+     */
     verbose?: boolean;
+    /**
+     * Timeout in milliseconds for processing
+     */
     timeout?: number;
+    /**
+     * Maximum number of retries for processing
+     */
     maxRetries?: number;
 }
 
+/**
+ * Result of a processing operation
+ */
 export interface ProcessResult {
+    /**
+     * Whether the processing operation was successful
+     */
     success: boolean;
+    /**
+     * Data returned from the processing operation
+     */
     data?: any;
+    /**
+     * Message describing the outcome of the processing operation
+     */
     message: string;
+    /**
+     * Timestamp when the processing operation was completed
+     */
     timestamp: Date;
 }
 
+/**
+ * ChainSync processor
+ */
 export class ChainSync {
     private config: ChainSyncConfig;
     private processed: number = 0;
 
+    /**
+     * Creates a new ChainSync processor with default or custom configuration
+     * @param config Custom configuration for the processor
+     */
     constructor(config: ChainSyncConfig = {}) {
         this.config = {
             verbose: false,
@@ -29,6 +63,10 @@ export class ChainSync {
         };
     }
 
+    /**
+     * Executes the ChainSync processor and returns the result
+     * @returns Promise resolving to the processing result
+     */
     async execute(): Promise<ProcessResult> {
         const startTime = Date.now();
         
@@ -63,6 +101,10 @@ export class ChainSync {
         }
     }
 
+    /**
+     * Performs the core processing logic
+     * @returns Promise resolving to the processing result
+     */
     private async process(): Promise<any> {
         // Implement your core logic here
         await this.delay(100); // Simulate processing
@@ -76,14 +118,12 @@ export class ChainSync {
         };
     }
 
+    /**
+     * Delays the execution by the specified amount of time
+     * @param ms Time to delay in milliseconds
+     * @returns Promise resolving when the delay is completed
+     */
     private delay(ms: number): Promise<void> {
         return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    getStatistics(): object {
-        return {
-            processed: this.processed,
-            config: this.config
-        };
     }
 }
